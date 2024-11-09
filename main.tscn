@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=3 uid="uid://bdaaxvd06yx8i"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_0pgml"]
+[ext_resource type="PackedScene" uid="uid://cdd1vads5k7nk" path="res://headset.blend" id="2_5k3dt"]
+[ext_resource type="Texture2D" uid="uid://bgs755nduuwqi" path="res://midcross.png" id="2_ou5pt"]
+[ext_resource type="PackedScene" uid="uid://b2kbnd5eekl1w" path="res://camera.blend" id="3_7pqck"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jphxf"]
+albedo_color = Color(0.977393, 0.338037, 0.319209, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyfkv"]
+albedo_color = Color(0.552266, 0.655031, 1, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xy4g0"]
+sky_top_color = Color(0.472356, 0.58584, 0.881362, 1)
+
+[sub_resource type="Sky" id="Sky_27akk"]
+sky_material = SubResource("ProceduralSkyMaterial_xy4g0")
+
+[sub_resource type="Environment" id="Environment_7ubqo"]
+background_mode = 2
+sky = SubResource("Sky_27akk")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1hgm"]
+transparency = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+albedo_texture = ExtResource("2_ou5pt")
+texture_filter = 0
+disable_receive_shadows = true
+grow_amount = 1.702
+distance_fade_min_distance = 14.0
+distance_fade_max_distance = 0.0
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_0pgml")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+use_xr = true
+size = Vector2i(0, 0)
+
+[node name="XROrigin3D" type="XROrigin3D" parent="SubViewport"]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="SubViewport/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+cull_mask = 1048567
+current = true
+
+[node name="headset" parent="SubViewport/XROrigin3D/XRCamera3D" instance=ExtResource("2_5k3dt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.361842)
+
+[node name="LHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SubViewport/XROrigin3D/LHand"]
+size = Vector3(0.135, 0.085, 0.085)
+material = SubResource("StandardMaterial3D_jphxf")
+
+[node name="RHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
+tracker = &"right_hand"
+show_when_tracked = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SubViewport/XROrigin3D/RHand"]
+size = Vector3(0.135, 0.085, 0.085)
+material = SubResource("StandardMaterial3D_qyfkv")
+
+[node name="CSGTorus3D" type="CSGTorus3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0960739, 0)
+visible = false
+inner_radius = 0.0903459
+outer_radius = 0.279943
+sides = 16
+ring_sides = 12
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
+environment = SubResource("Environment_7ubqo")
+
+[node name="camera" parent="SubViewport" instance=ExtResource("3_7pqck")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, -5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SubViewport"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -0.0443084, 0)
+size = Vector3(2, 0, 2)
+material = SubResource("StandardMaterial3D_g1hgm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -2, 1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -4.60797)
+current = true
+fov = 83.1
