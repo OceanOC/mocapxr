@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dk3qg1sqx20yh"]
+[gd_scene load_steps=5 format=3 uid="uid://dk3qg1sqx20yh"]
 
 [ext_resource type="Script" path="res://menu.gd" id="1_4ap61"]
+[ext_resource type="Texture2D" uid="uid://qdk6d5sp2ie" path="res://mocapicon.svg" id="2_n66yc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gi62g"]
 bg_color = Color(0, 0, 0, 1)
@@ -29,18 +30,25 @@ offset_right = 308.0
 offset_bottom = 632.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hyy0b")
 
+[node name="Panel3" type="Panel" parent="."]
+offset_left = 888.0
+offset_top = 593.0
+offset_right = 981.0
+offset_bottom = 643.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hyy0b")
+
 [node name="Panel5" type="Panel" parent="."]
-offset_left = 1004.0
-offset_top = 68.0
-offset_right = 1085.0
-offset_bottom = 104.0
+offset_left = 65.0
+offset_top = 246.0
+offset_right = 146.0
+offset_bottom = 282.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hyy0b")
 
 [node name="SpinBox" type="SpinBox" parent="."]
-offset_left = 1007.0
-offset_top = 71.0
-offset_right = 1098.0
-offset_bottom = 102.0
+offset_left = 68.0
+offset_top = 249.0
+offset_right = 159.0
+offset_bottom = 280.0
 min_value = 1.0
 max_value = 120.0
 value = 30.0
@@ -57,13 +65,18 @@ text = "Start recording"
 flat = true
 
 [node name="Label" type="Label" parent="."]
-offset_left = 958.0
-offset_top = 15.0
-offset_right = 1136.0
-offset_bottom = 64.0
+offset_left = 19.0
+offset_top = 193.0
+offset_right = 197.0
+offset_bottom = 242.0
 text = "Recording FPS 
 (Must be less than 120)"
 horizontal_alignment = 1
+
+[node name="Mocapicon" type="Sprite2D" parent="."]
+position = Vector2(113.5, 119.5)
+scale = Vector2(0.416016, 0.416016)
+texture = ExtResource("2_n66yc")
 
 [node name="FileDialog" type="FileDialog" parent="."]
 title = "Save Mocap File"
@@ -73,6 +86,62 @@ dialog_close_on_escape = false
 access = 2
 filters = PackedStringArray("*.bvh; BioVision Hierachy")
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 1001.0
+offset_top = 592.0
+offset_right = 1148.0
+offset_bottom = 643.0
+bbcode_enabled = true
+text = "Version 0.1.0
+[url=https://github.com/OceanOC/mocapxr/releases]Check for updates[/url]"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 893.0
+offset_top = 596.0
+offset_right = 977.0
+offset_bottom = 640.0
+text = "Licenses"
+flat = true
+
+[node name="Window" type="Window" parent="."]
+title = "Licenses"
+position = Vector2i(490, 270)
+size = Vector2i(620, 295)
+visible = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "  Copyright (c) 2014-present Godot Engine contributors.
+  Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the \"Software\"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+  -- Godot Engine <https://godotengine.org>
+  "
+
 [connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="pressed" from="Button" to="." method="_on_start_pressed"]
+[connection signal="close_requested" from="FileDialog" to="." method="_on_file_dialog_close_requested"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="pressed" from="Button2" to="." method="_on_license_button_pressed"]
+[connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]

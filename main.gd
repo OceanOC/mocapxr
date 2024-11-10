@@ -38,6 +38,7 @@ var time_accum = 0.0  # Accumulated time
 @onready var LH = get_node("SubViewport/XROrigin3D/LHand")
 @onready var RH = get_node("SubViewport/XROrigin3D/RHand")
 @onready var Hed = get_node("SubViewport/XROrigin3D/XRCamera3D")
+@onready var vern = get_node("Label")
 
 var temp = template
 
@@ -57,6 +58,8 @@ func _ready() -> void:
 	else:
 		print("OpenXR not initialized, please check if your headset is connected")
 		
+	
+	vern.set_text(sets.version)
 	get_tree().set_auto_accept_quit(false)
 	#print(template)
 	pass # Replace with function body.

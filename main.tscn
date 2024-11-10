@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bdaaxvd06yx8i"]
+[gd_scene load_steps=12 format=3 uid="uid://bdaaxvd06yx8i"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_0pgml"]
 [ext_resource type="PackedScene" uid="uid://cdd1vads5k7nk" path="res://headset.blend" id="2_5k3dt"]
 [ext_resource type="Texture2D" uid="uid://bgs755nduuwqi" path="res://midcross.png" id="2_ou5pt"]
 [ext_resource type="PackedScene" uid="uid://b2kbnd5eekl1w" path="res://camera.blend" id="3_7pqck"]
+[ext_resource type="Texture2D" uid="uid://qdk6d5sp2ie" path="res://mocapicon.svg" id="5_y74ii"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jphxf"]
 albedo_color = Color(0.977393, 0.338037, 0.319209, 1)
@@ -91,3 +92,17 @@ transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -4.60797)
 current = true
 fov = 83.1
+
+[node name="Mocapicon" type="Sprite2D" parent="."]
+visibility_layer = 8
+position = Vector2(70, 605)
+scale = Vector2(0.251953, 0.251953)
+texture = ExtResource("5_y74ii")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 984.0
+offset_top = 609.0
+offset_right = 1149.0
+offset_bottom = 645.0
+theme_override_font_sizes/font_size = 26
+text = "Version ???"
