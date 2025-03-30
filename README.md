@@ -4,6 +4,5 @@ Make mocap with a VR Headset. \
 This is currently in a *very* rough state right now.
 
 ## Planned Features
-- [ ] Multiple Tracker Support
 - [ ] Hand Tracking
 - [ ] Props
