@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6siwvk45w6de"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7uni3"]
+albedo_color = Color(0.977393, 0.338037, 0.319209, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sqc6g"]
+albedo_color = Color(0.681333, 0.73, 0, 1)
+
+[node name="XROrigin3D" type="XROrigin3D"]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+cull_mask = 1048567
+current = true
+
+[node name="LHand" type="XRController3D" parent="."]
+tracker = &"left_hand"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="LHand"]
+size = Vector3(0.135, 0.085, 0.085)
+material = SubResource("StandardMaterial3D_7uni3")
+
+[node name="RHand" type="XRController3D" parent="."]
+tracker = &"right_hand"
+show_when_tracked = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="RHand"]
+size = Vector3(0.135, 0.085, 0.085)
+material = SubResource("StandardMaterial3D_sqc6g")

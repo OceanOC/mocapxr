@@ -2,13 +2,11 @@ extends Node2D
 
 @onready var fdiag = get_node("FileDialog")
 @onready var lwin = get_node("Window")
-@onready var vern = get_node("Window/RichTextLabel")
 var fps = 30
 var sets = Bvhsets
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	vern.set_text(sets.version)
 	pass # Replace with function body.
 
 

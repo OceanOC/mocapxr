@@ -1,16 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bdaaxvd06yx8i"]
+[gd_scene load_steps=10 format=3 uid="uid://bdaaxvd06yx8i"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_0pgml"]
-[ext_resource type="PackedScene" uid="uid://cdd1vads5k7nk" path="res://headset.blend" id="2_5k3dt"]
+[ext_resource type="PackedScene" uid="uid://b6siwvk45w6de" path="res://VRPlayer.tscn" id="2_e55lp"]
 [ext_resource type="Texture2D" uid="uid://bgs755nduuwqi" path="res://midcross.png" id="2_ou5pt"]
 [ext_resource type="PackedScene" uid="uid://b2kbnd5eekl1w" path="res://camera.blend" id="3_7pqck"]
 [ext_resource type="Texture2D" uid="uid://qdk6d5sp2ie" path="res://mocapicon.svg" id="5_y74ii"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jphxf"]
-albedo_color = Color(0.977393, 0.338037, 0.319209, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyfkv"]
-albedo_color = Color(0.552266, 0.655031, 1, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xy4g0"]
 sky_top_color = Color(0.472356, 0.58584, 0.881362, 1)
@@ -41,30 +35,13 @@ script = ExtResource("1_0pgml")
 use_xr = true
 size = Vector2i(0, 0)
 
-[node name="XROrigin3D" type="XROrigin3D" parent="SubViewport"]
+[node name="XROrigin3D" parent="SubViewport" instance=ExtResource("2_e55lp")]
 
-[node name="XRCamera3D" type="XRCamera3D" parent="SubViewport/XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-cull_mask = 1048567
-current = true
+[node name="CSGBox3D" parent="SubViewport/XROrigin3D/LHand" index="0"]
+size = Vector3(0.085, 0.065, 0.065)
 
-[node name="headset" parent="SubViewport/XROrigin3D/XRCamera3D" instance=ExtResource("2_5k3dt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.361842)
-
-[node name="LHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
-tracker = &"left_hand"
-
-[node name="CSGBox3D" type="CSGBox3D" parent="SubViewport/XROrigin3D/LHand"]
-size = Vector3(0.135, 0.085, 0.085)
-material = SubResource("StandardMaterial3D_jphxf")
-
-[node name="RHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
-tracker = &"right_hand"
-show_when_tracked = true
-
-[node name="CSGBox3D" type="CSGBox3D" parent="SubViewport/XROrigin3D/RHand"]
-size = Vector3(0.135, 0.085, 0.085)
-material = SubResource("StandardMaterial3D_qyfkv")
+[node name="CSGBox3D" parent="SubViewport/XROrigin3D/RHand" index="0"]
+size = Vector3(0.085, 0.065, 0.065)
 
 [node name="CSGTorus3D" type="CSGTorus3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0960739, 0)
@@ -78,7 +55,7 @@ ring_sides = 12
 environment = SubResource("Environment_7ubqo")
 
 [node name="camera" parent="SubViewport" instance=ExtResource("3_7pqck")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, -5)
+transform = Transform3D(-3.58107e-08, 0, 0.819254, 0, 0.819254, 0, -0.819254, 0, -3.58107e-08, 0, 1, -5)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="SubViewport"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -0.0443084, 0)
@@ -87,11 +64,6 @@ material = SubResource("StandardMaterial3D_g1hgm")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -2, 1, 0)
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -4.60797)
-current = true
-fov = 83.1
 
 [node name="Mocapicon" type="Sprite2D" parent="."]
 visibility_layer = 8
@@ -105,4 +77,7 @@ offset_top = 609.0
 offset_right = 1149.0
 offset_bottom = 645.0
 theme_override_font_sizes/font_size = 26
-text = "Version ???"
+
+[connection signal="button_pressed" from="SubViewport/XROrigin3D/LHand" to="." method="_on_L_hand_button_pressed"]
+
+[editable path="SubViewport/XROrigin3D"]

@@ -18,16 +18,24 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Bvhsets="*res://bvhsets.gd"
+Bvhsets="*res://sets.gd"
 
 [display]
 
+window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 
 [editor]
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[input]
+
+endrecord={
+"deadzone": 0.5,
+"events": []
+}
 
 [xr]
 

@@ -2,11 +2,11 @@ extends Node
 
 var bvhfps = 30
 var bvhms = 1000.0 / bvhfps
-var version = "Version 0.1.0"
-var bvhfile: String
+var bvhfile: String = "unnamed.bvh"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	print(bvhms)
 	pass # Replace with function body.
 
 

@@ -2,43 +2,13 @@ extends Node3D
 
 var sets = Bvhsets
 
-var template = """HIERARCHY
-  ROOT chest
-  {
-	OFFSET 0.0 0.0 0.0
-	CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
-  {
-	OFFSET 0.000000 0.000000 0.800000
-	CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-  
-  JOINT Head
-	{
-	  OFFSET 0.000000 0.000000 1.440000
-	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-	}
-JOINT hand_L
-	{
-	  OFFSET -0.350000 0.000000 1.340000
-	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-	}
-  JOINT hand_R
-	{
-	  OFFSET 0.350000 0.000000 1.340000
-	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-	}
-}
-MOTION
-Frames: 1
-Frame Time: %s
-""" % str(sets.bvhms / 1000)
-#Frame Time: 0.0333333
-
 var time_accum = 0.0  # Accumulated time
 
 @onready var LH = get_node("SubViewport/XROrigin3D/LHand")
 @onready var RH = get_node("SubViewport/XROrigin3D/RHand")
 @onready var Hed = get_node("SubViewport/XROrigin3D/XRCamera3D")
 @onready var vern = get_node("Label")
+@onready var headmdl = get_node("headset")
 
 var temp = template
 
@@ -68,15 +38,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	time_accum += delta
 	
-	var file = FileAccess.open(sets.bvhfile, FileAccess.WRITE)
 	
-	
-	if time_accum >= sets.bvhms:  # 33.33333 ms
+	if time_accum >= (sets.bvhms / 1000):  # 33.33333 ms
 		temp += do_motionframe()
 		time_accum = 0.0  # Reset the accumulated time
+		headmdl.global_position = Hed.global_position
 	
-	
-	file.store_string(temp)
 	
 	pass
 
@@ -107,3 +74,42 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		print(template)
 		get_tree().quit() # default behavior
+
+
+func _on_L_hand_button_pressed(name: String) -> void:
+	if (name == "ax_button"):
+		var file = FileAccess.open(sets.bvhfile, FileAccess.WRITE)
+		file.store_string(temp)
+		get_tree().quit()
+	pass # Replace with function body.
+
+var template = """HIERARCHY
+  ROOT chest
+  {
+	OFFSET 0.0 0.0 0.0
+	CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
+  {
+	OFFSET 0.000000 0.000000 0.800000
+	CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+  
+  JOINT Head
+	{
+	  OFFSET 0.000000 0.000000 0.000000
+	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+	}
+JOINT hand_L
+	{
+	  OFFSET 0.000000 0.000000 0.000000
+	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+	}
+  JOINT hand_R
+	{
+	  OFFSET 0.000000 0.000000 0.000000
+	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+	}
+}
+MOTION
+Frames: 1
+Frame Time: %s
+""" % str(sets.bvhms / 1000)
+#Frame Time: 0.0333333
