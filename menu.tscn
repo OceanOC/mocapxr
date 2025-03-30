@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk3qg1sqx20yh"]
+[gd_scene load_steps=9 format=3 uid="uid://dk3qg1sqx20yh"]
 
 [ext_resource type="Script" path="res://menu.gd" id="1_4ap61"]
 [ext_resource type="Texture2D" uid="uid://qdk6d5sp2ie" path="res://mocapicon.svg" id="2_n66yc"]
+[ext_resource type="PackedScene" uid="uid://b6siwvk45w6de" path="res://VRPlayer.tscn" id="3_qehep"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gi62g"]
 bg_color = Color(0, 0, 0, 1)
@@ -22,6 +23,19 @@ expand_margin_left = 10.0
 expand_margin_top = 10.0
 expand_margin_right = 10.0
 expand_margin_bottom = 10.0
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lqioq"]
+sky_top_color = Color(0.282353, 0.266667, 0.286275, 1)
+sky_horizon_color = Color(0.282353, 0.266667, 0.286275, 1)
+ground_bottom_color = Color(0.282353, 0.266667, 0.286275, 1)
+ground_horizon_color = Color(0.282353, 0.266667, 0.286275, 1)
+
+[sub_resource type="Sky" id="Sky_h6w7e"]
+sky_material = SubResource("ProceduralSkyMaterial_lqioq")
+
+[sub_resource type="Environment" id="Environment_qy43u"]
+background_mode = 2
+sky = SubResource("Sky_h6w7e")
 
 [node name="Menu" type="Node2D"]
 script = ExtResource("1_4ap61")
@@ -169,9 +183,29 @@ offset_right = 230.0
 offset_bottom = 189.0
 uri = "https://github.com/OceanOC/mocapxr"
 
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="XROrigin3D" parent="SubViewport" instance=ExtResource("3_qehep")]
+
+[node name="CSGBox3D" parent="SubViewport/XROrigin3D/LHand" index="0"]
+size = Vector3(0.085, 0.065, 0.065)
+
+[node name="CSGBox3D" parent="SubViewport/XROrigin3D/RHand" index="0"]
+size = Vector3(0.085, 0.065, 0.065)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
+environment = SubResource("Environment_qy43u")
+
+[node name="Label3D" type="Label3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4)
+text = "Use the desktop window to start the recording"
+font_size = 27
+
 [connection signal="pressed" from="Button" to="." method="_on_start_pressed"]
 [connection signal="close_requested" from="FileDialog" to="." method="_on_file_dialog_close_requested"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
 [connection signal="pressed" from="Button2" to="." method="_on_license_button_pressed"]
 [connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]
 [connection signal="value_changed" from="Sets/Settings/HBoxContainer/RecFPS/VBoxContainer/SpinBox" to="." method="_on_spin_box_value_changed"]
+
+[editable path="SubViewport/XROrigin3D"]

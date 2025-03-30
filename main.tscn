@@ -9,12 +9,12 @@
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xy4g0"]
 sky_top_color = Color(0.472356, 0.58584, 0.881362, 1)
 
-[sub_resource type="Sky" id="Sky_27akk"]
+[sub_resource type="Sky" id="Sky_bat2h"]
 sky_material = SubResource("ProceduralSkyMaterial_xy4g0")
 
 [sub_resource type="Environment" id="Environment_7ubqo"]
 background_mode = 2
-sky = SubResource("Sky_27akk")
+sky = SubResource("Sky_bat2h")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1hgm"]
 transparency = 1
@@ -42,14 +42,6 @@ size = Vector3(0.085, 0.065, 0.065)
 
 [node name="CSGBox3D" parent="SubViewport/XROrigin3D/RHand" index="0"]
 size = Vector3(0.085, 0.065, 0.065)
-
-[node name="CSGTorus3D" type="CSGTorus3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0960739, 0)
-visible = false
-inner_radius = 0.0903459
-outer_radius = 0.279943
-sides = 16
-ring_sides = 12
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
 environment = SubResource("Environment_7ubqo")
