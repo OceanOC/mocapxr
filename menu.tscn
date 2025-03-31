@@ -59,6 +59,13 @@ offset_right = 1130.0
 offset_bottom = 627.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hyy0b")
 
+[node name="Panel4" type="Panel" parent="."]
+offset_left = 976.0
+offset_top = 26.0
+offset_right = 1127.0
+offset_bottom = 49.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hyy0b")
+
 [node name="Button" type="Button" parent="."]
 offset_left = 13.0
 offset_top = 575.0
@@ -79,6 +86,14 @@ size = Vector2i(668, 420)
 dialog_close_on_escape = false
 access = 2
 filters = PackedStringArray("*.bvh; BioVision Hierachy")
+
+[node name="Button3" type="Button" parent="."]
+offset_left = 970.0
+offset_top = 18.0
+offset_right = 1135.0
+offset_bottom = 57.0
+text = "Save Settings"
+flat = true
 
 [node name="Button2" type="Button" parent="."]
 offset_left = 1013.0
@@ -125,14 +140,14 @@ text = "  Copyright (c) 2014-present Godot Engine contributors.
   "
 
 [node name="Sets" type="Control" parent="."]
-custom_minimum_size = Vector2(1152, 658)
 layout_mode = 3
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
+offset_top = 97.0
 offset_right = 1152.0
-offset_bottom = 658.0
+offset_bottom = 537.36
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -174,6 +189,7 @@ layout_mode = 2
 min_value = 1.0
 max_value = 320.0
 value = 30.0
+rounded = true
 alignment = 1
 suffix = "FPS"
 select_all_on_focus = true
@@ -204,6 +220,7 @@ font_size = 27
 [connection signal="pressed" from="Button" to="." method="_on_start_pressed"]
 [connection signal="close_requested" from="FileDialog" to="." method="_on_file_dialog_close_requested"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="pressed" from="Button3" to="." method="_on_save_setting_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_license_button_pressed"]
 [connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]
 [connection signal="value_changed" from="Sets/Settings/HBoxContainer/RecFPS/VBoxContainer/SpinBox" to="." method="_on_spin_box_value_changed"]

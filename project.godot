@@ -21,6 +21,7 @@ config/icon="res://mocapicon.svg"
 [autoload]
 
 Bvhsets="*res://sets.gd"
+CfgHandler="*res://CfgHandler.gd"
 
 [display]
 

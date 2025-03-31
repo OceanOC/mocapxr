@@ -8,7 +8,37 @@ var time_accum = 0.0  # Accumulated time
 @onready var RH = get_node("SubViewport/XROrigin3D/RHand")
 @onready var Hed = get_node("SubViewport/XROrigin3D/XRCamera3D")
 @onready var vern = get_node("Label")
-@onready var headmdl = get_node("headset")
+
+var template = """HIERARCHY
+  ROOT chest
+  {
+	OFFSET 0.0 0.0 0.0
+	CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
+  {
+	OFFSET 0.000000 0.000000 0.800000
+	CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+  
+  JOINT Head
+	{
+	  OFFSET 0.000000 0.000000 0.000000
+	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+	}
+JOINT hand_L
+	{
+	  OFFSET 0.000000 0.000000 0.000000
+	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+	}
+  JOINT hand_R
+	{
+	  OFFSET 0.000000 0.000000 0.000000
+	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
+	}
+}
+MOTION
+Frames: 1
+Frame Time: %s
+""" % str(sets.bvhms / 1000)
+#Frame Time: 0.0333333
 
 var temp = template
 
@@ -27,9 +57,10 @@ func _ready() -> void:
 		get_viewport().use_xr = true
 	else:
 		print("OpenXR not initialized, please check if your headset is connected")
+		vern.set_text("OpenXR failed to start.\nPlease check if your HMD is connected.")
 		
 	
-	vern.set_text(sets.version)
+	
 	get_tree().set_auto_accept_quit(false)
 	#print(template)
 	pass # Replace with function body.
@@ -42,7 +73,6 @@ func _process(delta: float) -> void:
 	if time_accum >= (sets.bvhms / 1000):  # 33.33333 ms
 		temp += do_motionframe()
 		time_accum = 0.0  # Reset the accumulated time
-		headmdl.global_position = Hed.global_position
 	
 	
 	pass
@@ -82,34 +112,3 @@ func _on_L_hand_button_pressed(name: String) -> void:
 		file.store_string(temp)
 		get_tree().quit()
 	pass # Replace with function body.
-
-var template = """HIERARCHY
-  ROOT chest
-  {
-	OFFSET 0.0 0.0 0.0
-	CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
-  {
-	OFFSET 0.000000 0.000000 0.800000
-	CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-  
-  JOINT Head
-	{
-	  OFFSET 0.000000 0.000000 0.000000
-	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-	}
-JOINT hand_L
-	{
-	  OFFSET 0.000000 0.000000 0.000000
-	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-	}
-  JOINT hand_R
-	{
-	  OFFSET 0.000000 0.000000 0.000000
-	  CHANNELS 6 Xrotation Yrotation Zrotation Xposition Yposition Zposition
-	}
-}
-MOTION
-Frames: 1
-Frame Time: %s
-""" % str(sets.bvhms / 1000)
-#Frame Time: 0.0333333
