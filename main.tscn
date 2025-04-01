@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bdaaxvd06yx8i"]
+[gd_scene load_steps=13 format=3 uid="uid://bdaaxvd06yx8i"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_0pgml"]
 [ext_resource type="PackedScene" uid="uid://b6siwvk45w6de" path="res://VRPlayer.tscn" id="2_e55lp"]
@@ -15,6 +15,41 @@ sky_material = SubResource("ProceduralSkyMaterial_xy4g0")
 [sub_resource type="Environment" id="Environment_7ubqo"]
 background_mode = 2
 sky = SubResource("Sky_bat2h")
+adjustment_enabled = true
+
+[sub_resource type="Animation" id="Animation_61ljb"]
+resource_name = "desat"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:environment:adjustment_saturation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.01, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_y0lx6"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:environment:adjustment_saturation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bq4xw"]
+_data = {
+"RESET": SubResource("Animation_y0lx6"),
+"desat": SubResource("Animation_61ljb")
+}
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1hgm"]
 transparency = 1
@@ -31,32 +66,6 @@ distance_fade_max_distance = 0.0
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_0pgml")
 
-[node name="SubViewport" type="SubViewport" parent="."]
-use_xr = true
-size = Vector2i(0, 0)
-
-[node name="XROrigin3D" parent="SubViewport" instance=ExtResource("2_e55lp")]
-
-[node name="CSGBox3D" parent="SubViewport/XROrigin3D/LHand" index="0"]
-size = Vector3(0.085, 0.065, 0.065)
-
-[node name="CSGBox3D" parent="SubViewport/XROrigin3D/RHand" index="0"]
-size = Vector3(0.085, 0.065, 0.065)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
-environment = SubResource("Environment_7ubqo")
-
-[node name="camera" parent="SubViewport" instance=ExtResource("3_7pqck")]
-transform = Transform3D(-3.58107e-08, 0, 0.819254, 0, 0.819254, 0, -0.819254, 0, -3.58107e-08, 0, 1, -5)
-
-[node name="CSGBox3D" type="CSGBox3D" parent="SubViewport"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -0.0443084, 0)
-size = Vector3(2, 0, 2)
-material = SubResource("StandardMaterial3D_g1hgm")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -2, 1, 0)
-
 [node name="Mocapicon" type="Sprite2D" parent="."]
 visibility_layer = 8
 position = Vector2(70, 605)
@@ -70,13 +79,31 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -244.0
-offset_top = -37.5
+offset_top = 51.5
 offset_right = 244.0
-offset_bottom = 37.5
+offset_bottom = 126.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
 
-[connection signal="button_pressed" from="SubViewport/XROrigin3D/LHand" to="." method="_on_L_hand_button_pressed"]
+[node name="XROrigin3D" parent="." instance=ExtResource("2_e55lp")]
 
-[editable path="SubViewport/XROrigin3D"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7ubqo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WorldEnvironment"]
+libraries = {
+"": SubResource("AnimationLibrary_bq4xw")
+}
+
+[node name="camera" parent="." instance=ExtResource("3_7pqck")]
+transform = Transform3D(-3.58107e-08, 0, 0.819254, 0, 0.819254, 0, -0.819254, 0, -3.58107e-08, 0, 1, -5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -0.0443084, 0)
+size = Vector3(2, 0, 2)
+material = SubResource("StandardMaterial3D_g1hgm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -2, 1, 0)

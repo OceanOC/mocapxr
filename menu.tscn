@@ -200,14 +200,10 @@ offset_bottom = 189.0
 uri = "https://github.com/OceanOC/mocapxr"
 
 [node name="SubViewport" type="SubViewport" parent="."]
+use_xr = true
+size = Vector2i(0, 0)
 
 [node name="XROrigin3D" parent="SubViewport" instance=ExtResource("3_qehep")]
-
-[node name="CSGBox3D" parent="SubViewport/XROrigin3D/LHand" index="0"]
-size = Vector3(0.085, 0.065, 0.065)
-
-[node name="CSGBox3D" parent="SubViewport/XROrigin3D/RHand" index="0"]
-size = Vector3(0.085, 0.065, 0.065)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
 environment = SubResource("Environment_qy43u")

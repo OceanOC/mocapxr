@@ -13,11 +13,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 cull_mask = 1048567
 current = true
 
+[node name="Recording Time" type="Label3D" parent="XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, -2)
+visible = false
+
 [node name="LHand" type="XRController3D" parent="."]
 tracker = &"left_hand"
 
 [node name="CSGBox3D" type="CSGBox3D" parent="LHand"]
-size = Vector3(0.135, 0.085, 0.085)
+size = Vector3(0.085, 0.065, 0.065)
 material = SubResource("StandardMaterial3D_7uni3")
 
 [node name="RHand" type="XRController3D" parent="."]
@@ -25,5 +29,5 @@ tracker = &"right_hand"
 show_when_tracked = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="RHand"]
-size = Vector3(0.135, 0.085, 0.085)
+size = Vector3(0.085, 0.065, 0.065)
 material = SubResource("StandardMaterial3D_sqc6g")
